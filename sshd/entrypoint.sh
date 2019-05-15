@@ -35,8 +35,9 @@ else
 	echo "Once anyone successfully logs into wetty, they will have a full shell. Just fyi."
 fi
 
-if [ -f /data/not-mounted ] ; then
-	_err "/data is not mounted in docker. Please mount a volume to /data. Exiting."
+if [ -z "$(mount | grep /data)" ] ; then
+	echo "Warning: /data does not appear to be mounted. If this is not mounted, saved ssh keys will not persist across container recreations, which could lead to a 'Mismatched key' error on SSH, where it correctly sees that the container's key has changed, and won't let you login because it thinks someone is messing with you connection."
+	echo "Please mount a volume to /data."
 fi
 
 # wetty does not work with google auth

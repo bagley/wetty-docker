@@ -1,8 +1,10 @@
 #!/bin/sh
 
-ssl_dir=/ssl
-ssl_key=/ssl/key.pem
-ssl_cert=/ssl/cert.pem
+ssl_dir=/home/node/ssl
+ssl_key=$ssl_dir/key.pem
+ssl_cert=$ssl_dir/cert.pem
+
+mkdir -p $ssl_dir
 
 if ! [ -f $ssl_key ] || ! [ -f $ssl_cert ] ; then
 	rm -f $ssl_key $ssl_cert

@@ -1,7 +1,8 @@
 FROM debian:stretch
 
 # install pkgs
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
     apt-get -y install \
         openssh-client \
         sshpass \
@@ -21,7 +22,6 @@ RUN chmod 444 /etc/issue.remote && \
     chmod 700 /root && \
     mkdir -p /run/sshd && \
     mkdir -p /data && \
-    touch /data/not-mounted && \
     chmod 755 /entrypoint.sh && \
     bash -n /entrypoint.sh && \
     chown root:root /etc/ssh/sshd_config && \
@@ -38,6 +38,8 @@ RUN echo "Testing config" && \
     echo "Purging ssh keys. Keys should not be listed" && \
     rm -f /etc/ssh/ssh_host_* && \
     ls /etc/ssh
+
+VOLUME /data
 
 # setup healthcheck
 HEALTHCHECK --interval=15s --timeout=20s \
