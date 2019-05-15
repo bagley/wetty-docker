@@ -5,7 +5,7 @@ services:
   wetty:
     # built from Dockerfile
     # image: butlerx/wetty 
-    image: mydigitalwalk/wetty
+    image: mydigitalwalk/wetty:latest
     restart: always
     mem_limit: 300M
     container_name: wetty
@@ -46,7 +46,7 @@ services:
 
   wetty-ssh:
     # built from dockerfile: Dockerfile-ssh
-    image: mydigitalwalk/wetty-ssh
+    image: mydigitalwalk/wetty-ssh:latest
     # this is needed so wetty can connect to it
     container_name: 'wetty-ssh'
     restart: always

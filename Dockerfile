@@ -29,7 +29,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # setup healthcheck
-HEALTHCHECK --interval=30s --timeout=20s \
+HEALTHCHECK --interval=15s --timeout=20s \
   CMD curl -sS --fail --insecure https://localhost:3000${BASEURL} || exit 1
 
 # ENTRYPOINT [ "node", "." ]
