@@ -17,3 +17,9 @@ node_modules
 .esm-cache
 dist
 .idea
+
+env*
+ssl
+data
+sshd-data
+

@@ -1,39 +1,87 @@
----
-version: "3.5"
+version: "2.3"
+
 services:
+
   wetty:
-    build: .
-    image: butlerx/wetty
+    # built from Dockerfile
+    # image: butlerx/wetty 
+    image: mydigitalwalk/wetty
+    restart: always
+    mem_limit: 300M
     container_name: wetty
-    tty: true
+#    tty: true
     working_dir: /usr/src/app
-    ports:
-      - "3000:3000"
+    env_file:
+      - env-wetty
     environment:
       SSHHOST: 'wetty-ssh'
       SSHPORT: 22
-      NODE_ENV: 'development'
-    command: yarn start --sshhost redbrick.dcu.ie
-
-  web:
-    image: nginx
+      NODE_ENV: 'production'
+      BASEURL: '/manage'
+#    healthcheck:
+#      test: [ "CMD", "curl", "--fail", "--insecure", "-sS", "https://localhost:3000/manage" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+    networks:
+      - traefik_proxy
+      - default
     volumes:
-      - ./bin/nginx.template:/etc/nginx/conf.d/wetty.template
-    ports:
-      - "80:80"
-    environment:
-      - NGINX_DOMAIN=wetty.com
-      - NGINX_PORT=80
-      - WETTY_HOST=wetty
-      - WETTY_PORT=3000
-    command: /bin/bash -c "envsubst '$${NGINX_DOMAIN},$${NGINX_PORT},$${WETTY_HOST},$${WETTY_PORT}' < /etc/nginx/conf.d/wetty.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+      - ./data/ssl:/ssl
+      - ./data/ssh:/root/.ssh
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=wetty"
+      - "traefik.frontend.rule=Host:${DOMAINNAME}"
+      - "traefik.frontend.auth.basic.usersFile=/shared/.htpasswd"
+      - "traefik.protocol=https"
+      - "traefik.port=3000"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=example.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+#    entrypoint: sleep 99999
+
+#openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 300000 -nodes -subj "/C=YZ/ST=Hello/L=Here/O=WeTTy/OU=Org/CN=wetty-ssh"
+#    command: yarn start --sshhost 'wetty-ssh' --sshport 22 --base ${BASEURL} --sslkey /ssl/key.pem --sslcert /ssl/cert.pem
+
 
   wetty-ssh:
-    build:
-      context: .
-      dockerfile: Dockerfile-ssh
+    # built from dockerfile: Dockerfile-ssh
+    image: mydigitalwalk/wetty-ssh
+    # this is needed so wetty can connect to it
     container_name: 'wetty-ssh'
-
+    restart: always
+    mem_limit: 200M
+    env_file:
+      - env
+# Only fill this if you don't use the above 'env' file
+#    environment:
+#      WETTY_USER: 'YourUser'
+#      WETTY_PASSWORD: 'YourPassPhrase'
+#      SSHHOST: 'w.x.y.z'
+#      SSHPORT: 22
+#      SSHUSER: YourSystemUser
+#    healthcheck:
+#      test: [ "CMD", "/healthcheck-ssh" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+    volumes:
+      - ./data/sshd:/data
+#      - ./healthcheck-ssh:/healthcheck-ssh:ro
+    networks:
+      - default
+ 
 networks:
-  default:
-    name: wetty
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+

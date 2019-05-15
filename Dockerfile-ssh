@@ -1,3 +1,47 @@
-FROM sickp/alpine-sshd:latest
-RUN adduser -D -h /home/term -s /bin/sh term && \
-    ( echo "term:term" | chpasswd )
+FROM debian:stretch
+
+# install pkgs
+RUN apt-get update && \
+    apt-get -y install \
+        openssh-client \
+        sshpass \
+        openssh-server && \
+    rm -rf /var/lib/apt/lists/* \
+    rm -rf /var/cache/apt
+
+#        libpam-google-authenticator
+
+COPY sshd/issue.remote 		/etc/issue.remote
+COPY sshd/entrypoint.sh 	/entrypoint.sh
+COPY sshd/sshd_config 		/etc/ssh/sshd_config
+COPY sshd/healthcheck-ssh	/healthcheck
+
+# setup
+RUN chmod 444 /etc/issue.remote && \
+    chmod 700 /root && \
+    mkdir -p /run/sshd && \
+    mkdir -p /data && \
+    touch /data/not-mounted && \
+    chmod 755 /entrypoint.sh && \
+    bash -n /entrypoint.sh && \
+    chown root:root /etc/ssh/sshd_config && \
+    chmod 600 /etc/ssh/sshd_config && \
+    chmod 755 /healthcheck
+
+# force 2FA (notice that there is no 'nullok')
+# WeTTY only takes the user and password, so the input of the verification code goes unanswered and fails
+#RUN echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
+
+# verify everything
+RUN echo "Testing config" && \
+    /usr/sbin/sshd -t && \
+    echo "Purging ssh keys. Keys should not be listed" && \
+    rm -f /etc/ssh/ssh_host_* && \
+    ls /etc/ssh
+
+# setup healthcheck
+HEALTHCHECK --interval=30s --timeout=20s \
+  CMD /healthcheck
+
+ENTRYPOINT [ "/entrypoint.sh" ]
+

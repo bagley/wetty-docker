@@ -1,0 +1,23 @@
+# sshd_config
+
+AcceptEnv LANG LC_*
+PermitRootLogin no
+PermitEmptyPasswords no
+Banner /etc/issue.remote
+# ChallengeResponseAuthentication yes
+## AuthenticationMethods publickey,password publickey,keyboard-interactive
+X11Forwarding no
+PrintMotd no
+UsePAM yes
+UseDNS no
+
+#SyslogFacility DAEMON
+#LogLevel DEBUG
+
+# TODO: these may help, but I turned them off for some reason
+# Not sure if they caused an issue weeks/months ago. Will need to be tested.
+#ClientAliveCountMax 5
+#ClientAliveInterval 15
+#TCPKeepAlive no
+
+

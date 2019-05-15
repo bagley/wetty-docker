@@ -1,4 +1,5 @@
-FROM node:boron-alpine as builder
+#FROM node:boron-alpine as builder
+FROM node:lts-alpine as builder
 RUN apk add -U build-base python
 WORKDIR /usr/src/app
 COPY . /usr/src/app
@@ -6,7 +7,8 @@ RUN yarn && \
     yarn build && \
     yarn install --production --ignore-scripts --prefer-offline
 
-FROM node:boron-alpine
+#FROM node:boron-alpine
+FROM node:lts-alpine
 LABEL maintainer="butlerx@notthe.cloud"
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
@@ -17,6 +19,18 @@ COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY package.json /usr/src/app
 COPY index.js /usr/src/app
 RUN mkdir ~/.ssh
-RUN ssh-keyscan -H wetty-ssh >> ~/.ssh/known_hosts
+# RUN ssh-keyscan -H wetty-ssh >> ~/.ssh/known_hosts
 
-ENTRYPOINT [ "node", "." ]
+RUN apk update && \
+    apk add --no-cache curl openssl && \
+    rm -rf /var/cache/apk
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# setup healthcheck
+HEALTHCHECK --interval=30s --timeout=20s \
+  CMD curl -sS --fail --insecure https://localhost:3000${BASEURL} || exit 1
+
+# ENTRYPOINT [ "node", "." ]
+ENTRYPOINT [ "/entrypoint.sh" ]
