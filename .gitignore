@@ -18,7 +18,8 @@ node_modules
 dist
 .idea
 
-env*
+env
+env-wetty
 ssl
 data
 sshd-data
