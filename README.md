@@ -7,7 +7,7 @@ websockets rather then Ajax and hence better response time.
 
 _The setup of WeTTy in this repo is built specifically to run under Traefik, as quickly as possible. For the original, go to [github.com/krishnasrinivas/wetty](https://github.com/krishnasrinivas/wetty)_
 
-![WeTTy](/terminal.png?raw=true)
+![WeTTy](/terminal.jpg?raw=true)
 
 ## Running WeTTy with Traefik under Docker
 
