@@ -10,20 +10,17 @@ services:
     mem_limit: 300M
     container_name: wetty
 #    tty: true
-    working_dir: /usr/src/app
     env_file:
       - env-wetty
     environment:
       SSHHOST: 'wetty-ssh'
       SSHPORT: 22
       NODE_ENV: 'production'
-      BASEURL: '/manage'
     networks:
       - traefik_proxy
       - default
     volumes:
-      - ./data/ssl:/ssl
-      - ./data/ssh:/root/.ssh
+      - wetty-data:/home/node
       - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
@@ -43,7 +40,6 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
 
-
   wetty-ssh:
     # built from dockerfile: Dockerfile-ssh
     image: mydigitalwalk/wetty-ssh:latest
@@ -53,15 +49,9 @@ services:
     mem_limit: 200M
     env_file:
       - env
-# Only fill this if you don't use the above 'env' file
-#    environment:
-#      WETTY_USER: 'YourUser'
-#      WETTY_PASSWORD: 'YourPassPhrase'
-#      SSHHOST: 'w.x.y.z'
-#      SSHPORT: 22
-#      SSHUSER: YourSystemUser
     volumes:
-      - ./data/sshd:/data
+      - wetty_ssh-data:/data
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - default
  
@@ -69,4 +59,10 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
+
+volumes:
+  wetty-data:
+    name: wetty-data
+  wetty_ssh-data:
+    name: wetty_ssh-data
 
