@@ -5,6 +5,8 @@ but much better than them because WeTTy uses xterm.js which is a full fledged
 implementation of terminal emulation written entirely in JavaScript. WeTTy uses
 websockets rather then Ajax and hence better response time.
 
+Here's a [tutorial on how to set this up](https://www.supertechcrew.com/wetty-browser-ssh-terminal/). Or there's some instrustions below.
+
 _The setup of WeTTy in this repo is built specifically to run under Traefik, as quickly as possible. For the original, go to [github.com/krishnasrinivas/wetty](https://github.com/krishnasrinivas/wetty)_
 
 ![WeTTy](/terminal.jpg?raw=true)
