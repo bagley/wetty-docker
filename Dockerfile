@@ -1,5 +1,4 @@
-#FROM node:boron-alpine as builder
-FROM node:lts-alpine as builder
+FROM node:carbon-alpine as builder
 RUN apk add -U build-base python
 WORKDIR /usr/src/app
 COPY wetty /usr/src/app
@@ -8,12 +7,11 @@ RUN yarn && \
     yarn install --production --ignore-scripts --prefer-offline
 
 
-#FROM node:boron-alpine
-FROM node:lts-alpine
-
+FROM node:carbon-alpine
 LABEL maintainer="firstlife22@gmail.com"
+WORKDIR /usr/src/app
 ENV NODE_ENV=production
-
+EXPOSE 3000
 COPY --from=builder /usr/src/app/dist /usr/src/app/dist
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY wetty/package.json /usr/src/app
@@ -38,10 +36,6 @@ HEALTHCHECK --interval=15s --timeout=20s \
 
 VOLUME /home/node
 
-WORKDIR /usr/src/app
-EXPOSE 3000
-
 USER node
 
-# ENTRYPOINT [ "node", "." ]
 ENTRYPOINT [ "/entrypoint.sh" ]
