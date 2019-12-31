@@ -53,7 +53,7 @@ services:
 
 
   wetty-ssh:
-    # built from dockerfile: Dockerfile-ssh
+    # built from Dockerfile-ssh
     image: mydigitalwalk/wetty-ssh:latest
     # this is needed so wetty can connect to it
     container_name: 'wetty-ssh'
@@ -88,4 +88,3 @@ volumes:
     name: wetty-data
   wetty_ssh-data:
     name: wetty_ssh-data
-

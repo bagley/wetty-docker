@@ -26,13 +26,13 @@ You'll need a [working setup of Traefik (tutorial)](https://www.supertechcrew.co
 
 ### Volumes
 
-The `docker-compose.yml` will automatically create the needed volumes. They are called `wetty-data` for the `wetty` container, and `wetty_ssh-data` for the `wetty-ssh` containter. 
+The `docker-compose.yml` will automatically create the needed volumes. They are called `wetty-data` for the `wetty` container, and `wetty_ssh-data` for the `wetty-ssh` container.
 
 They keep the SSH keys, `known_hosts` files, and other files needed across recreates/updates. Feel free to override these if you would like, just set them to the same folders.
 
 ### Settings
 
-There are two enviroment settings files, `.env` and `env-wetty-ssh`.
+There are two environment settings files, `.env` and `env-wetty-ssh`.
 
 _Why two files? Because the public facing container should not already have your username/password to login to the second, in case someone were to break into it. It would make it too easy to get into the ssh one._
 
@@ -80,7 +80,7 @@ Images are automatically pulled from Docker hub by `docker-compose`. Just noting
 
 ### Cloning with the submodule
 
-If you wish to build the image, instead of having it use Docker hub, You'll need to get the wetty source code, as this is not automatically added with `clone`. If you already have it cloned, run this to get the code:
+If you wish to build the image, instead of having it use Docker hub, You'll need to get the WeTTy source code, as this is not automatically added with `clone`. If you already have it cloned, run this to get the code:
 
 Use this also to update the WeTTy code too.
 
@@ -100,4 +100,3 @@ git clone --recurse-submodules https://github.com/bagley/wetty
 
 WeTTy supports all browsers that
 [xterm.js supports](https://github.com/xtermjs/xterm.js#browser-support).
-
