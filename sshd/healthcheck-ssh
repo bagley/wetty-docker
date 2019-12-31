@@ -1,4 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
-ssh-keyscan 127.0.0.1 2>/dev/null | grep 127.0.0.1
+for key in ecdsa ed25519 rsa ; do
+
+	if [ -f /etc/ssh/ssh_host_${key}_key.pub ] ; then
+		if [ -n "$(ssh-keyscan -t $key 127.0.0.1 2>/dev/null | grep 127.0.0.1)" ] ; then
+			echo "SSH is available. Verified checking key $key"
+			exit 0
+		else
+			echo "Either the key type $key is not available, or SSH cannot be reached"
+			exit 1
+		fi
+	fi
+
+done
 
