@@ -11,7 +11,7 @@ services:
     container_name: wetty
 #    tty: true
     env_file:
-      - env-wetty
+      - .env
     environment:
       SSHHOST: 'wetty-ssh'
       SSHPORT: 22
@@ -48,7 +48,7 @@ services:
     restart: always
     mem_limit: 200M
     env_file:
-      - env
+      - env-wetty-ssh
     volumes:
       - wetty_ssh-data:/data
       - /etc/localtime:/etc/localtime:ro

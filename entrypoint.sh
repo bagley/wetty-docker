@@ -14,4 +14,4 @@ if ! [ -f $ssl_key ] || ! [ -f $ssl_cert ] ; then
 		-days 300000 -nodes -subj "/C=YZ/ST=Hello/L=Here/O=Company/OU=Org/CN=wetty"
 fi
 
-yarn start --sshhost 'wetty-ssh' --sshport 22 --base ${BASEURL} --sslkey $ssl_key --sslcert $ssl_cert
+yarn start --sshhost 'wetty-ssh' --sshport 22 --base ${BASEURL}/ --sslkey $ssl_key --sslcert $ssl_cert

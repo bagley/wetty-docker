@@ -18,8 +18,8 @@ node_modules
 dist
 .idea
 
-env
-env-wetty
+.env
+env-wetty-ssh
 ssl
 data
 sshd-data
