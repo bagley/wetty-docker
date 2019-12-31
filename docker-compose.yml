@@ -4,8 +4,13 @@ services:
 
   wetty:
     # built from Dockerfile
-    # image: butlerx/wetty 
     image: mydigitalwalk/wetty:latest
+    # image: butlerx/wetty
+    # If you want to build your own:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: wetty
     restart: always
     mem_limit: 300M
     container_name: wetty
@@ -43,6 +48,10 @@ services:
   wetty-ssh:
     # built from dockerfile: Dockerfile-ssh
     image: mydigitalwalk/wetty-ssh:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-ssh
+#    image: wetty-ssh
     # this is needed so wetty can connect to it
     container_name: 'wetty-ssh'
     restart: always
