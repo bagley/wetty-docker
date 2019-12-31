@@ -23,7 +23,7 @@ They keep the SSH keys, `known_hosts` files, and other files needed across recre
 
 ### Settings
 
-Rename `env.example` to `env` and set the user and SSH settings.
+Rename `env-wetty-ssh.example` to `env-wetty-ssh` and set the user and SSH settings.
 
 ```sh
 WETTY_USER=YourUser
@@ -34,18 +34,18 @@ SSHPORT=22
 SSHUSER=Your.SSH.User
 ```
 
-Rename `env-wetty.example` to `env-wetty` and set the domain and the base url.
+Rename `.env.example` to `.env` and set the domain url, and the base url, so it will be `https://{DOMAINNAME}{BASEURL}`
 
 ```sh
 DOMAINNAME=console.example.com
 BASEURL=/manage
 ```
 
-Then you can either change `DOMAINNAME` in the `docker-compose.yml`, or you can set the variable:
+Now go ahead and bring it up:
 
 ```sh
-$ export DOMAINNAME=console.example.com
 $ docker-compose up -d
+$ docker-compose logs -f
 ```
 
 Then go to your site, `https://console.example.com/manage`
