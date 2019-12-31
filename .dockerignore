@@ -8,3 +8,9 @@ dist
 **/*.conf
 **/*.service
 Dockerfile
+.env*
+env*
+autobuild.sh
+.gitmodules
+README*
+
