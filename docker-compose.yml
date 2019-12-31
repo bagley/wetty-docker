@@ -21,6 +21,12 @@ services:
       SSHHOST: 'wetty-ssh'
       SSHPORT: 22
       NODE_ENV: 'production'
+#    # Already in the image, but here too in case you'd like to change it
+#    healthcheck:
+#      test: [ "CMD", "curl", "--fail", "--insecure", "-sS", "https://localhost:3000/${BASEURL}" ]
+#      interval: 30s
+#      timeout: 20s
+#      retries: 3
     networks:
       - traefik_proxy
       - default
@@ -63,7 +69,13 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - default
- 
+#    # Image already has this, but you can modify or disable it here.
+#    healthcheck:
+#      test: [ "CMD", "/healthcheck" ]
+#      interval: 30s
+#      timeout: 20s
+#      retries: 3
+
 networks:
   traefik_proxy:
     external:
