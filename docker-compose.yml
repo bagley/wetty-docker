@@ -6,11 +6,6 @@ services:
     # built from Dockerfile
     image: mydigitalwalk/wetty:latest
     # image: butlerx/wetty
-    # If you want to build your own:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    image: wetty
     restart: always
     mem_limit: 300M
     container_name: wetty
@@ -21,12 +16,6 @@ services:
       SSHHOST: 'wetty-ssh'
       SSHPORT: 22
       NODE_ENV: 'production'
-#    # Already in the image, but here too in case you'd like to change it
-#    healthcheck:
-#      test: [ "CMD", "curl", "--fail", "--insecure", "-sS", "https://localhost:3000/${BASEURL}" ]
-#      interval: 30s
-#      timeout: 20s
-#      retries: 3
     networks:
       - traefik_proxy
       - default
@@ -50,14 +39,22 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=true"
+#    # If you want to build your own image (remember to pull the wetty submodule):
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: wetty
+#    # Already in the image, but here too in case you'd like to change it
+#    healthcheck:
+#      test: [ "CMD", "curl", "--fail", "--insecure", "-sS", "https://localhost:3000/${BASEURL}" ]
+#      interval: 30s
+#      timeout: 20s
+#      retries: 3
+
 
   wetty-ssh:
     # built from dockerfile: Dockerfile-ssh
     image: mydigitalwalk/wetty-ssh:latest
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-ssh
-#    image: wetty-ssh
     # this is needed so wetty can connect to it
     container_name: 'wetty-ssh'
     restart: always
@@ -69,6 +66,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - default
+#    # If you want to build your own image (remember to pull the wetty submodule):
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-ssh
+#    image: wetty-ssh
 #    # Image already has this, but you can modify or disable it here.
 #    healthcheck:
 #      test: [ "CMD", "/healthcheck" ]
