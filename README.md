@@ -72,6 +72,18 @@ $ mv env env-wetty-ssh
 $ mv env-wetty .env
 ```
 
+### Healthcheck
+
+The images come with a healthcheck. The WeTTY container self checks that it can `curl` to its http connection. The SSH container makes sure it can connect to its ssh instance.
+
+You may see lines like the following in the log:
+
+```
+wetty-ssh    | Connection closed by 127.0.0.1 port 58824 [preauth]
+```
+
+This is just the healthcheck connecting to the ssh container and making sure it will accept connections.
+
 ### Docker hub
 
 Images are automatically pulled from Docker hub by `docker-compose`. Just noting this here for reference.
