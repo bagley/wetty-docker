@@ -13,4 +13,4 @@ env*
 autobuild.sh
 .gitmodules
 README*
-
+test*

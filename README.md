@@ -100,6 +100,8 @@ Then, uncomment out the lines for building it, and either just bring it up (dock
 docker-compose build
 ```
 
+There is a script `autobuild.sh` which I use to build the image, start it (under and testing name, so production one can keep running), and then will test and verify the image before uploading to Docker hub.
+
 ## FAQ
 
 ### What browsers are supported?
