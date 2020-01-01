@@ -78,7 +78,7 @@ Images are automatically pulled from Docker hub by `docker-compose`. Just noting
 - [wetty](https://hub.docker.com/r/mydigitalwalk/wetty)
 - [wetty-ssh](https://hub.docker.com/r/mydigitalwalk/wetty-ssh)
 
-### Cloning with the submodule
+### Building
 
 If you wish to build the image, instead of having it use Docker hub, You'll need to get the WeTTy source code, as this is not automatically added with `clone`. If you already have it cloned, run this to get the code:
 
@@ -92,6 +92,12 @@ Or run this if you haven't already cloned it:
 
 ```
 git clone --recurse-submodules https://github.com/bagley/wetty
+```
+
+Then, uncomment out the lines for building it, and either just bring it up (docker-compose will build it), or manually build it:
+
+```
+docker-compose build
 ```
 
 ## FAQ
