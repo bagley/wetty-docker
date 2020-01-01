@@ -50,6 +50,7 @@ services:
 #      interval: 30s
 #      timeout: 20s
 #      retries: 3
+#      disable: true
 
 
   wetty-ssh:
@@ -77,6 +78,7 @@ services:
 #      interval: 30s
 #      timeout: 20s
 #      retries: 3
+#      disable: true
 
 networks:
   traefik_proxy:
