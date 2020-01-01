@@ -28,7 +28,9 @@ RUN apk update && \
     rm -rf /var/cache/apk/* && \
     mkdir /home/node/.ssh && \
     chown node:node /home/node/.ssh && \
-    chmod +x /entrypoint.sh
+    chmod +x /entrypoint.sh && \
+    chown root:root -R /usr/src/app && \
+    chmod u=rwX,og=rX -R /usr/src/app
 
 # setup healthcheck
 HEALTHCHECK --interval=15s --timeout=20s \
