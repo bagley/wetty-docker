@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -n "$1" ] ; then
+	$@
+	exit
+fi
+
 ssl_dir=/home/node/ssl
 ssl_key=$ssl_dir/key.pem
 ssl_cert=$ssl_dir/cert.pem
