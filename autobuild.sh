@@ -100,9 +100,9 @@ _test() {
   . .env
 	#. env-wetty-ssh
 	echo "Checking WeTTy"
-	$docker_compose exec testwetty curl --fail --insecure -sS https://localhost:3000${BASEURL} > /dev/null
+	$docker_compose exec -T testwetty curl --fail --insecure -sS https://localhost:3000${BASEURL} > /dev/null
 	_check $? "Checking WeTTy"
-	$docker_compose exec testwetty-ssh /healthcheck | grep "SSH is available"
+	$docker_compose exec -T testwetty-ssh /healthcheck | grep "SSH is available"
   _check $? "Checking WeTTy SSH"
 
   echo Checking for errors in log
