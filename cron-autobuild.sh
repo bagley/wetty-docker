@@ -21,6 +21,18 @@ else
 	exit_code=$(( $exit_code + $? ))
 fi
 
+wetty_docker=wetty/Dockerfile
+wetty_docker_saved=.cron
+if ! [ -f $wetty_docker_saved ] ; then
+	cp -a $wetty_docker $wetty_docker_saved
+else
+	if [ -n "$(diff -u $wetty_docker $wetty_docker_saved)" ] ; then
+		diff -u $wetty_docker $wetty_docker_saved | mail -s "WeTTy repo's Dockerfile has changed" root
+		rm -f $wetty_docker_saved
+		cp -a $wetty_docker $wetty_docker_saved
+	fi
+fi
+
 bash autobuild.sh publish -t >> "$log" 2>&1
 exit_code=$(( $exit_code + $? ))
 
