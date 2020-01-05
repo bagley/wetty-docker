@@ -82,7 +82,7 @@ _test() {
 	$docker_compose up -d
 	_check $? "Starting WeTTy"
 	echo "Waiting for healthy state"
-	x=120
+	x=180
 	while [ $x -gt 0 ] && [ $($docker_compose ps | grep -c 'Up (healthy)') -ne 2 ] ; do
 		x=$(($x - 1))
 		sleep 1
