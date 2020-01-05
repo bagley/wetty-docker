@@ -1,0 +1,10 @@
+
+# When to email ("always" or "error"). Defaults to always
+# email=always
+
+# Log needs to be in root owned/protected dir. Defaults to current dir
+# log=cron-autobuild.log
+
+# what user to update the git repo as. useful to not have a root cron job mess
+# up your repo's permissions. If not specified, runs as user running cron-autobuild.sh
+# update_as_user=

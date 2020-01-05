@@ -24,3 +24,5 @@ ssl
 data
 sshd-data
 test-docker-compose.yml
+cron-autobuild.conf
+cron-autobuild.log
