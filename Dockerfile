@@ -6,7 +6,6 @@ RUN yarn && \
     yarn build && \
     yarn install --production --ignore-scripts --prefer-offline
 
-
 FROM node:carbon-alpine
 LABEL maintainer="firstlife22@gmail.com"
 WORKDIR /usr/src/app

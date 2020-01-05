@@ -8,9 +8,14 @@ dist
 **/*.conf
 **/*.service
 Dockerfile
-.env*
-env*
-autobuild.sh
+wetty/Dockerfile*
 .gitmodules
 README*
 test*
+.env*
+env*
+Dockerfile*
+autobuild.sh
+cron*
+.cron
+*.jpg
