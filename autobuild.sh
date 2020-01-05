@@ -5,7 +5,7 @@ _check() {
 		echo "$2 Succeeded"
 	else
 		echo "$2 Failed"
-    _errout
+		_errout
 	fi
 }
 
@@ -27,20 +27,19 @@ _errout() {
 }
 
 _build() {
-
 	if ! [ -f Dockerfile ] || ! [ -f Dockerfile-ssh ] ; then
 		echo "Failed to find both Dockerfiles. Exiting"
 		exit 1
 	fi
 
-  tag=latest
+	tag=latest
 	[ $test -eq 1 ] && tag=test
 
 	echo "Building WeTTy:$tag"
 	docker build $cache --pull=true -f Dockerfile-ssh -t mydigitalwalk/wetty-ssh:$tag .
 	_check $? "Building WeTTY-ssh"
 
-  echo "Building WeTTy SSH:$tag"
+	echo "Building WeTTy SSH:$tag"
 	docker build $cache --pull=true -f Dockerfile -t mydigitalwalk/wetty:$tag .
 	_check $? "Building WeTTy"
 
@@ -74,9 +73,9 @@ _test() {
 	sed -i "s|  wetty-ssh:|  testwetty-ssh:|g" $docker_compose_file
 	sed -i "s|  - .env|  - .env.example|g" $docker_compose_file
 	sed -i "s|traefik.backend=wetty|traefik.backend=testwetty|g" $docker_compose_file
-  # sed -i "s|- default|- testdefault|g" $docker_compose_file
+	# sed -i "s|- default|- testdefault|g" $docker_compose_file
 
-  [ -f env-wetty-ssh ] || _errout "No config file found for ssh"
+	[ -f env-wetty-ssh ] || _errout "No config file found for ssh"
 
 	$docker_compose down -v
 	$docker_compose up -d
@@ -89,7 +88,7 @@ _test() {
 	done
 
 	if [ $($docker_compose ps | grep -c 'Up (healthy)') -ne 2 ] ; then
-    _test_show_debug
+		_test_show_debug
 		$docker_compose down -v
 		_errout "Failed to start app"
 	fi
@@ -97,15 +96,15 @@ _test() {
 	sleep 30
 
 	echo Starting tests
-  . .env
+	. .env
 	#. env-wetty-ssh
 	echo "Checking WeTTy"
 	$docker_compose exec -T testwetty curl --fail --insecure -sS https://localhost:3000${BASEURL} > /dev/null
 	_check $? "Checking WeTTy"
 	$docker_compose exec -T testwetty-ssh /healthcheck | grep "SSH is available"
-  _check $? "Checking WeTTy SSH"
+	_check $? "Checking WeTTy SSH"
 
-  echo Checking for errors in log
+	echo Checking for errors in log
 	if [ -n "$(docker-compose logs | grep -i Error)" ] ; then
 		echo Found the following errors:
 		docker-compose logs | grep -i Error
@@ -122,7 +121,7 @@ _test() {
 	docker tag mydigitalwalk/wetty:test mydigitalwalk/wetty:latest
 	docker tag mydigitalwalk/wetty-ssh:test mydigitalwalk/wetty-ssh:latest
 
-  docker rmi mydigitalwalk/wetty:test
+	docker rmi mydigitalwalk/wetty:test
 	docker rmi mydigitalwalk/wetty-ssh:test
 }
 
@@ -133,21 +132,21 @@ _update() {
 
 _help() {
 	echo "Usage: $0 [publish|build|upload|update] -t (test) -f (force build without cache)"
-  exit 1
+	exit 1
 }
 
 action=""
 test=0
 cache=""
 for each in $@ ; do
-  case $each in
-	  publish) action=publish ;;
-	  upload)  action=upload ;;
-	  update)  action=update ;;
-	  build)   action=build ;;
+	case $each in
+		publish) action=publish ;;
+		upload)  action=upload ;;
+		update)  action=update ;;
+		build)   action=build ;;
 		-t) 		 test=1 ;;
 		-f)      cache="--no-cache" ;;
-	  *) _help ;;
+		*) _help ;;
 	esac
 done
 
@@ -155,7 +154,7 @@ done
 case $action in
 
 	publish)
-    _build
+		_build
 		_upload
 		;;
 
