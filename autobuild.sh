@@ -94,6 +94,7 @@ _test() {
 	sed -i "s|  wetty-ssh:|  testwetty-ssh:|g" $docker_compose_file
 	sed -i "s|  - .env|  - .env.example|g" $docker_compose_file
 	sed -i "s|traefik.backend=wetty|traefik.backend=testwetty|g" $docker_compose_file
+	sed -i "s|restart: always|#restart: no|g" $docker_compose_file
 	# sed -i "s|- default|- testdefault|g" $docker_compose_file
 
 	[ -f env-wetty-ssh ] || _errout "No config file found for ssh"
