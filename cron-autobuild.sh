@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remember to cd to this dir before running.
-# 0 * * * *   root   cd /path/to/wetty-repo && bash cron-autobuild.sh
+# 0 2 * * *   root   cd /path/to/wetty-repo && bash cron-autobuild.sh
 
 config=cron-autobuild.conf
 log=cron-autobuild.log
