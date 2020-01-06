@@ -33,7 +33,7 @@ else
 	fi
 fi
 
-bash autobuild.sh publish -t >> "$log" 2>&1
+bash autobuild.sh publish -f -t >> "$log" 2>&1
 exit_code=$(( $exit_code + $? ))
 
 if [ $exit_code -eq 0 ] ; then
