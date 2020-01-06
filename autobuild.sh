@@ -133,6 +133,13 @@ _test() {
 	echo "Images after tagging:"
 	docker images | grep mydigitalwalk/wetty
 	echo
+
+	echo "Layers for WeTTy:"
+	docker history $(docker images | grep "mydigitalwalk/wetty " | grep latest | awk '{print $3}')
+
+	echo
+	echo "Layers for WeTTy SSH:"
+	docker history $(docker images | grep "mydigitalwalk/wetty-ssh " | grep latest | awk '{print $3}')
 }
 
 _update() {
