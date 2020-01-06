@@ -35,8 +35,6 @@ _build() {
 	tag=latest
 	[ $test -eq 1 ] && tag=test
 
-	update-docker-ignore
-
 	echo "Building WeTTy:$tag"
 	docker build $cache --pull=true -f Dockerfile-ssh -t mydigitalwalk/wetty-ssh:$tag .
 	_check $? "Building WeTTY-ssh"
@@ -46,25 +44,6 @@ _build() {
 	_check $? "Building WeTTy"
 
 	[ $test -eq 1 ] && _test
-}
-
-update-docker-ignore() {
-	rm -f .dockerignore
-	cp -a wetty/.dockerignore .dockerignore
-	cat <<EOF>> .dockerignore
-wetty/Dockerfile*
-.gitmodules
-README*
-test*
-.env*
-env*
-Dockerfile*
-autobuild.sh
-cron*
-.cron
-terminal.jpg
-EOF
-
 }
 
 _upload() {
