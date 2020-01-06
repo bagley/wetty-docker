@@ -36,9 +36,6 @@ fi
 bash autobuild.sh publish -t >> "$log" 2>&1
 exit_code=$(( $exit_code + $? ))
 
-echo "Images:"  >> "$log" 2>&1
-docker images | grep mydigitalwalk/wetty  >> "$log" 2>&1
-
 if [ $exit_code -eq 0 ] ; then
 	msg="Successfully built and published wetty"
 	if [ -z "$email" ] || [ "$email" == "always" ] ; then

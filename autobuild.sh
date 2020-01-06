@@ -139,12 +139,21 @@ _test() {
 	_cleanup
 
 	# retag test
-	echo "Tests passed. Tagging it as latest"
+	echo "Tests passed."
+	echo "Images before tagging: (Showing test images)"
+	docker images | grep mydigitalwalk/wetty
+
+	echo
+	echo "Tagging it as latest"
 	docker tag mydigitalwalk/wetty:test mydigitalwalk/wetty:latest
 	docker tag mydigitalwalk/wetty-ssh:test mydigitalwalk/wetty-ssh:latest
 
 	docker rmi mydigitalwalk/wetty:test
 	docker rmi mydigitalwalk/wetty-ssh:test
+
+	echo "Images after tagging:"
+	docker images | grep mydigitalwalk/wetty
+	echo
 }
 
 _update() {
