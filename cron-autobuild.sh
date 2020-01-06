@@ -33,7 +33,13 @@ else
 	fi
 fi
 
-bash autobuild.sh publish -f -t >> "$log" 2>&1
+# only force rebuild (no cache) if image's age is in terms of weeks
+force=""
+if [ -n "$(docker images | grep "mydigitalwalk/wetty" | grep latest | grep weeks)" ] ; then
+	force="-f"
+fi
+
+bash autobuild.sh publish $force -t >> "$log" 2>&1
 exit_code=$(( $exit_code + $? ))
 
 if [ $exit_code -eq 0 ] ; then
