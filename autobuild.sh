@@ -81,7 +81,7 @@ _test() {
 	echo "Setting up for test"
 	docker_compose_file=test-docker-compose.yml
 	rm -f $docker_compose_file
-	docker_compose="docker-compose -f $docker_compose_file --project-name testwetty"
+	docker_compose="docker-compose -f $docker_compose_file --project-name testwetty --no-ansi"
 	cp docker-compose.yml $docker_compose_file || _errout "Failed to copy to $docker_compose_file"
 	sed -i "s|mydigitalwalk/wetty:latest|mydigitalwalk/wetty:test|g" $docker_compose_file
 	sed -i "s|mydigitalwalk/wetty-ssh:latest|mydigitalwalk/wetty-ssh:test|g" $docker_compose_file
