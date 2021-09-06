@@ -1,25 +1,25 @@
-FROM node:carbon-alpine as builder
-RUN apk add -U build-base python
+FROM node:current-alpine as builder
+RUN apk add -U build-base python3 python2
 WORKDIR /usr/src/app
 COPY wetty /usr/src/app
 RUN yarn && \
     yarn build && \
     yarn install --production --ignore-scripts --prefer-offline
 
-FROM node:carbon-alpine
+FROM node:current-alpine
 LABEL maintainer="firstlife22@gmail.com"
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
 EXPOSE 3000
-COPY --from=builder /usr/src/app/dist /usr/src/app/dist
+COPY --from=builder /usr/src/app/build /usr/src/app/build
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY wetty/package.json /usr/src/app
-COPY wetty/index.js /usr/src/app
 
 COPY entrypoint.sh /entrypoint.sh
 
 RUN apk update && \
     apk add --no-cache \
+        coreutils \
         openssh-client \
         sshpass \
         curl \
